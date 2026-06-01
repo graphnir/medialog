@@ -22,7 +22,12 @@ const getActiveCat=()=>getCat(activeCatId);
 const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 function formatDate(str){if(!str)return'';const[y,m,d]=str.split('-').map(Number);if(!y)return str;return new Date(y,m-1,d).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'});}
 function todayStr(){const d=new Date();return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
-function isUnseen(e){const s=(e.statut||'').toLowerCase();return s.includes('à voir')||s.includes('à faire')||s.includes('à lire')||s.includes('à paraître');}
+function parseDate(str){
+  if(!str)return 0;
+  if(/^\d{4}-\d{2}-\d{2}$/.test(str)){const[y,m,d]=str.split('-').map(Number);return new Date(y,m-1,d).getTime();}
+  if(/^\d{2}\/\d{2}\/\d{4}$/.test(str)){const[d,m,y]=str.split('/').map(Number);return new Date(y,m-1,d).getTime();}
+  const t=new Date(str).getTime();return isNaN(t)?0:t;
+}function isUnseen(e){const s=(e.statut||'').toLowerCase();return s.includes('à voir')||s.includes('à faire')||s.includes('à lire')||s.includes('à paraître');}
 function renderMd(text){if(!text)return'';return text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').replace(/^- (.+)/gm,'<li>$1</li>').replace(/<li>/g,'<ul><li>').replace(/<\/li>(?![\s\S]*<li>)/g,'</li></ul>').replace(/\n\n/g,'</p><p>').replace(/^(?!<)/gm,'<p>').replace(/$(?!>)/gm,'</p>').replace(/<p><\/p>/g,'');}
 
 // ── Sauvegarde auto ───────────────────────────────────────
@@ -330,7 +335,7 @@ function renderContent(){
     entries.sort((a,b)=>{
       let va=a[sortKey]??null,vb=b[sortKey]??null;
       if(col&&(col.type==='number'||col.type==='rating')){va=(va===null||va==='')?-Infinity:Number(va);vb=(vb===null||vb==='')?-Infinity:Number(vb);return sortDir==='asc'?va-vb:vb-va;}
-      if(col&&col.type==='date'){va=va?new Date(va).getTime():0;vb=vb?new Date(vb).getTime():0;return sortDir==='asc'?va-vb:vb-va;}
+      if(col&&col.type==='date'){va=va?parseDate(va):0;vb=vb?parseDate(vb):0;return sortDir==='asc'?va-vb:vb-va;}
       va=String(va??'');vb=String(vb??'');const cmp=va.localeCompare(vb,'fr',{numeric:true,sensitivity:'base'});return sortDir==='asc'?cmp:-cmp;
     });
   }else entries.sort((a,b)=>{if(a._order!==undefined&&b._order!==undefined)return a._order-b._order;return(b._created||0)-(a._created||0);});
