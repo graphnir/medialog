@@ -66,6 +66,9 @@
   <nav class="tabs-nav" id="share-tabs-nav"></nav>
   <div class="stats-bar" id="share-stats-bar"></div>
   <main class="main-content" id="share-main-content"></main>
+  <button class="fab-top" id="share-fab-top" style="display:none;" title="Retour en haut">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
 </div>
 
 <!-- ═══ PAGE APP ════════════════════════════════════════════ -->
@@ -288,10 +291,10 @@
 
 <script src="/supabase.js"></script>
 <script>
-    window.ENV_SUPABASE_URL      = 'https://lvnbwrpxhkytkkgwwgzs.supabase.co';
-    window.ENV_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx2bmJ3cnB4aGt5dGtrZ3d3Z3pzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwODU2MTksImV4cCI6MjA5NTY2MTYxOX0.SFYwX7htL2YEGQn8mAhIDnpFkpXmheEfa-XG_0uLBjY';
-  </script>
-<!-- Chart.js pour les graphiques test -->
+  window.ENV_SUPABASE_URL      = '__SUPABASE_URL__';
+  window.ENV_SUPABASE_ANON_KEY = '__SUPABASE_ANON_KEY__';
+</script>
+<!-- Chart.js pour les graphiques -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 <script src="/api.js"></script>
 <script src="/app.js"></script>
