@@ -2,6 +2,7 @@
   "name": "medialog",
   "version": "2.0.0",
   "description": "MediaLog — journal culturel personnel",
+  "outputDirectory": "public",
   "scripts": {
     "dev": "vercel dev"
   },
