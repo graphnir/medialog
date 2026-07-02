@@ -32,7 +32,7 @@ function showHelpPopup(id, anchor){
     popup.style.left=Math.max(8,left)+'px';
     const top=rect.bottom+window.scrollY+6;
     popup.style.top=(top+200>window.scrollY+window.innerHeight?rect.top+window.scrollY-200-10:top)+'px';
-    setTimeout(()=>document.addEventListener('click',outsideHelp),10);
+    setTimeout(()=>document.addEventListener('click',outsideHelp,true),10);
   });
 }
 async function openShareModal(){

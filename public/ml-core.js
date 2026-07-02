@@ -76,7 +76,7 @@ async function route(){
     currentUser=await API.me();
     const data=await API.getData();
     state.categories=data.categories||[];
-    activeCatId=state.categories[0]?.id||null;
+    restoreActiveCat();
     try{tutorialSteps=await API.getTutorial();}catch{tutorialSteps=[];}
     showPage('app');initApp();
   }catch{API.clearTokens();showPage('auth');initAuthPage();}
@@ -137,7 +137,7 @@ function initAuthPage(){
     try{
       const data=await API.login(email,pw);currentUser=data.user;
       const d=await API.getData();state.categories=d.categories||[];
-      activeCatId=state.categories[0]?.id||null;
+      restoreActiveCat();
       try{tutorialSteps=await API.getTutorial();}catch{tutorialSteps=[];}
       showPage('app');initApp();
     }catch(e){
@@ -182,7 +182,30 @@ function closeInlinePopup(){document.getElementById('active-inline-popup')?.remo
 
 function outsidePopup(e){const p=document.getElementById('active-inline-popup');if(p&&!p.contains(e.target))closeInlinePopup();}
 
-function closeHelpPopup(){document.getElementById('active-help-popup')?.remove();document.removeEventListener('click',outsideHelp);}
+function restoreActiveCat(){
+  const saved=localStorage.getItem('ml_active_cat');
+  activeCatId=(saved&&state.categories.find(c=>c.id===saved))?saved:(state.categories[0]?.id||null);
+  loadSortForCat(activeCatId);
+}
+
+function loadSortForCat(catId){
+  try{
+    const all=JSON.parse(localStorage.getItem('ml_sort_by_cat')||'{}');
+    const s=catId?all[catId]:null;
+    sortKey=s?.key||'';sortDir=s?.dir||'desc';
+  }catch{sortKey='';sortDir='desc';}
+}
+
+function saveSortForCat(catId){
+  if(!catId)return;
+  try{
+    const all=JSON.parse(localStorage.getItem('ml_sort_by_cat')||'{}');
+    all[catId]={key:sortKey,dir:sortDir};
+    localStorage.setItem('ml_sort_by_cat',JSON.stringify(all));
+  }catch{}
+}
+
+function closeHelpPopup(){document.getElementById('active-help-popup')?.remove();document.removeEventListener('click',outsideHelp,true);}
 
 function outsideHelp(e){const p=document.getElementById('active-help-popup');if(p&&!p.contains(e.target))closeHelpPopup();}
 

@@ -210,7 +210,7 @@ function saveCategory(){
   activeCatId=state.categories[state.categories.length-1].id;scheduleSave();closeModals();render();
 }
 
-function deleteCategory(){const cat=getActiveCat();if(!cat)return;if(!confirm(`Supprimer "${cat.name}" ?`))return;state.categories=state.categories.filter(c=>c.id!==cat.id);activeCatId=state.categories[0]?.id||null;scheduleSave();render();}
+function deleteCategory(){const cat=getActiveCat();if(!cat)return;if(!confirm(`Supprimer "${cat.name}" ?`))return;state.categories=state.categories.filter(c=>c.id!==cat.id);activeCatId=state.categories[0]?.id||null;localStorage.setItem('ml_active_cat',activeCatId||'');loadSortForCat(activeCatId);scheduleSave();render();}
 
 function openPresetsModal(){
   closeInlinePopup();

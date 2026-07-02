@@ -6,7 +6,7 @@ function render(){renderTabs();renderStats();renderContent();}
 function renderTabs(){
   const nav=document.getElementById('tabs-nav');
   nav.innerHTML=state.categories.map(cat=>`<button class="tab-btn ${cat.id===activeCatId?'active':''}" style="--tab-color:${cat.color}" data-id="${cat.id}"><span class="tab-icon">${cat.icon}</span>${esc(cat.name)}</button>`).join('');
-  nav.querySelectorAll('.tab-btn').forEach(btn=>btn.addEventListener('click',()=>{activeCatId=btn.dataset.id;searchQuery='';sortKey='';sortDir='desc';filterFav=false;filterStatus='all';filterTag='';tableSelectMode=false;tableSelected.clear();render();}));
+  nav.querySelectorAll('.tab-btn').forEach(btn=>btn.addEventListener('click',()=>{activeCatId=btn.dataset.id;localStorage.setItem('ml_active_cat',activeCatId);loadSortForCat(activeCatId);searchQuery='';filterFav=false;filterStatus='all';filterTag='';tableSelectMode=false;tableSelected.clear();render();}));
 }
 
 function renderStats(){
@@ -113,8 +113,8 @@ function renderContent(){
       if(siAfter){const pos=siAfter.value.length;siAfter.focus();try{siAfter.setSelectionRange(pos,pos);}catch{}}
     },180);
   });
-  document.getElementById('sort-select').addEventListener('change',e=>{sortKey=e.target.value;renderContent();});
-  document.getElementById('sort-dir-btn').addEventListener('click',()=>{sortDir=sortDir==='asc'?'desc':'asc';renderContent();});
+  document.getElementById('sort-select').addEventListener('change',e=>{sortKey=e.target.value;saveSortForCat(activeCatId);renderContent();});
+  document.getElementById('sort-dir-btn').addEventListener('click',()=>{sortDir=sortDir==='asc'?'desc':'asc';saveSortForCat(activeCatId);renderContent();});
   document.getElementById('btn-manage-cols').addEventListener('click',openColumnsModal);
   document.getElementById('btn-export-csv').addEventListener('click',exportCSV);
   document.getElementById('btn-delete-cat').addEventListener('click',deleteCategory);
