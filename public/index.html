@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>MediaLog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+<!-- ═══ PAGE CONFIRMATION ══════════════════════════════════ -->
+<div id="page-confirm" style="display:none;">
+  <div class="auth-wrap">
+    <div class="auth-card" style="text-align:center;">
+      <div id="confirm-content">
+        <div style="font-size:64px;margin-bottom:16px;">✅</div>
+        <h2 class="auth-title">Compte confirmé !</h2>
+        <p style="color:var(--text2);margin-bottom:24px;">Ton adresse email a été vérifiée. Tu peux maintenant te connecter.</p>
+        <a href="/" class="btn btn-primary" style="display:inline-flex;">Se connecter</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PAGE AUTH ══════════════════════════════════════════ -->
+<div id="page-auth" style="display:none;">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-logo" id="auth-logo-text">ML</div>
+      <h1 class="auth-title" id="auth-site-name">MediaLog</h1>
+      <p class="auth-sub" id="auth-site-sub">Mon journal culturel</p>
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-tab="login">Connexion</button>
+        <button class="auth-tab" data-tab="register">Inscription</button>
+      </div>
+      <div id="auth-login">
+        <div class="field-group"><label class="field-label">Email</label><input type="email" id="login-email" class="field-input" placeholder="toi@exemple.fr" autocomplete="email" /></div>
+        <div class="field-group"><label class="field-label">Mot de passe</label><div style="position:relative;"><input type="password" id="login-pw" class="field-input" placeholder="••••••••" autocomplete="current-password" style="padding-right:40px;"/><button type="button" class="pw-toggle" data-target="login-pw">👁</button></div></div>
+        <div id="login-error" class="auth-error" style="display:none;"></div>
+        <button class="btn btn-primary" style="width:100%;margin-top:8px;" id="btn-login">Se connecter</button>
+        <button class="btn btn-ghost" style="width:100%;margin-top:8px;font-size:13px;" id="btn-forgot-pw">Mot de passe oublié ?</button>
+      </div>
+      <div id="auth-register" style="display:none;">
+        <div class="field-group"><label class="field-label">Nom d'utilisateur</label><input type="text" id="reg-username" class="field-input" placeholder="mon_pseudo" autocomplete="username" /></div>
+        <div class="field-group"><label class="field-label">Email</label><input type="email" id="reg-email" class="field-input" placeholder="toi@exemple.fr" autocomplete="email" /></div>
+        <div class="field-group"><label class="field-label">Mot de passe <span style="color:var(--text3);font-weight:400;">(8 car. min.)</span></label><div style="position:relative;"><input type="password" id="reg-pw" class="field-input" placeholder="••••••••" autocomplete="new-password" style="padding-right:40px;"/><button type="button" class="pw-toggle" data-target="reg-pw">👁</button></div></div>
+        <div id="reg-error" class="auth-error" style="display:none;"></div>
+        <button class="btn btn-primary" style="width:100%;margin-top:8px;" id="btn-register">Créer mon compte</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PAGE PARTAGE ════════════════════════════════════════ -->
+<div id="page-share" style="display:none;">
+  <header class="app-header">
+    <div class="header-left">
+      <div class="logo-mark" id="share-logo">ML</div>
+      <div><h1 class="app-title" id="share-site-name">MediaLog</h1><p class="app-subtitle" id="share-owner-name">Collection de …</p></div>
+    </div>
+    <a href="/" class="btn btn-ghost btn-sm">← Connexion</a>
+  </header>
+  <nav class="tabs-nav" id="share-tabs-nav"></nav>
+  <div class="stats-bar" id="share-stats-bar"></div>
+  <main class="main-content" id="share-main-content"></main>
+  <button class="fab-top" id="share-fab-top" style="display:none;" title="Retour en haut">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+</div>
+
+<!-- ═══ PAGE APP ════════════════════════════════════════════ -->
+<div id="page-app" style="display:none;">
+  <header class="app-header">
+    <div class="header-left">
+      <div class="logo-mark" id="app-logo">ML</div>
+      <div><h1 class="app-title" id="app-site-name">MediaLog</h1><p class="app-subtitle" id="app-site-sub">Mon journal culturel</p></div>
+    </div>
+    <div style="display:flex;gap:6px;align-items:center;">
+      <button class="btn-icon" id="btn-tutorial" title="Tutoriel" style="font-size:13px;font-weight:600;width:auto;padding:0 10px;">Tutoriel</button>
+      <div style="position:relative;display:inline-flex;">
+        <button class="btn-icon" id="btn-stats" title="Graphiques">📊</button>
+      </div>
+      <button class="btn-icon" id="btn-roulette" title="Roulette" style="font-size:18px;">🎰</button>
+      <button class="btn-icon" id="btn-news" title="Actualités" style="position:relative;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg>
+        <span id="news-badge" class="news-badge-dot" style="display:none;"></span>
+      </button>
+      <button class="btn-icon" id="btn-import" title="Importer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      </button>
+      <button class="btn-icon" id="btn-export-all" title="Exporter tout">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      </button>
+      <button class="btn-icon" id="btn-add-category" title="Nouvelle catégorie">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      </button>
+      <div class="user-menu-wrap">
+        <button class="user-avatar" id="btn-user-menu"></button>
+        <div class="user-menu" id="user-menu" style="display:none;">
+          <div class="user-menu-name" id="user-menu-name"></div>
+          <div class="user-menu-email" id="user-menu-email"></div>
+          <hr class="user-menu-sep" />
+          <button class="user-menu-item" id="btn-history">🕘 Historique</button>
+          <button class="user-menu-item" id="btn-theme-settings">🎨 Thème</button>
+          <button class="user-menu-item" id="btn-share-settings">🔗 Partage</button>
+          <button class="user-menu-item" id="btn-account-settings">⚙️ Mon compte</button>
+          <button class="user-menu-item" id="btn-admin-panel" style="display:none;">🛡️ Admin</button>
+          <hr class="user-menu-sep" />
+          <button class="user-menu-item user-menu-logout" id="btn-logout">Déconnexion</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="tabs-nav" id="tabs-nav"></nav>
+  <div class="stats-bar" id="stats-bar"></div>
+  <main class="main-content" id="main-content"></main>
+
+  <button class="fab" id="fab-add-entry">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+  </button>
+  <button class="fab-top" id="fab-back-top" style="display:none;" title="Retour en haut">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+</div>
+
+<!-- ═══ MODALS ═══════════════════════════════════════════════ -->
+<div class="modal-backdrop" id="modal-backdrop"></div>
+
+<!-- Entrée -->
+<div class="modal" id="modal-entry">
+  <div class="modal-header"><h2 class="modal-title" id="modal-entry-title">Nouvelle entrée</h2><button class="btn-icon" id="btn-close-entry"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+  <div class="modal-body" id="modal-entry-body"></div>
+  <div class="modal-footer">
+    <button class="btn btn-ghost" id="btn-delete-entry" style="display:none;color:var(--danger);">Supprimer</button>
+    <div style="display:flex;gap:8px;margin-left:auto;"><button class="btn btn-ghost" id="btn-cancel-entry">Annuler</button><button class="btn btn-primary" id="btn-save-entry">Sauvegarder</button></div>
+  </div>
+</div>
+
+<!-- Catégorie -->
+<div class="modal" id="modal-category">
+  <div class="modal-header"><h2 class="modal-title">Nouvelle catégorie</h2><button class="btn-icon" id="btn-close-category"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+  <div class="modal-body">
+    <label class="field-label">Nom</label><input type="text" id="cat-name" class="field-input" placeholder="Ex: Séries…" />
+    <label class="field-label" style="margin-top:16px;">Icône (emoji)</label><input type="text" id="cat-icon" class="field-input" placeholder="🎵" maxlength="4" />
+    <label class="field-label" style="margin-top:16px;">Couleur</label>
+    <div class="color-picker" id="cat-color-picker">
+      <div class="color-swatch active" data-color="#7C6FE0" style="background:#7C6FE0;"></div>
+      <div class="color-swatch" data-color="#E05252" style="background:#E05252;"></div>
+      <div class="color-swatch" data-color="#52A0E0" style="background:#52A0E0;"></div>
+      <div class="color-swatch" data-color="#52C07A" style="background:#52C07A;"></div>
+      <div class="color-swatch" data-color="#E09E52" style="background:#E09E52;"></div>
+      <div class="color-swatch" data-color="#C052E0" style="background:#C052E0;"></div>
+      <div class="color-swatch" data-color="#52D4E0" style="background:#52D4E0;"></div>
+      <div class="color-swatch" data-color="#E05292" style="background:#E05292;"></div>
+    </div>
+    <div style="margin-top:24px;border-top:1px solid var(--border);padding-top:20px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;"><label class="field-label" style="margin:0;">Colonnes</label><button class="btn btn-ghost btn-sm" id="btn-add-col-cat">+ Ajouter</button></div>
+      <div id="cat-cols-list"></div>
+    </div>
+  </div>
+  <div class="modal-footer"><button class="btn btn-ghost" id="btn-cancel-category">Annuler</button><button class="btn btn-primary" id="btn-save-category">Créer</button></div>
+</div>
+
+<!-- Présets -->
+<div class="modal" id="modal-presets">
+  <div class="modal-header"><h2 class="modal-title">Choisir des catégories</h2><button class="btn-icon" id="btn-close-presets"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+  <div class="modal-body">
+    <p style="color:var(--text2);margin-bottom:20px;">Sélectionne les catégories à créer, ou commence de zéro.</p>
+    <div class="presets-grid" id="presets-grid"></div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-ghost" id="btn-presets-zero">Partir de zéro</button>
+    <button class="btn btn-primary" id="btn-presets-apply">Créer les catégories</button>
+  </div>
+</div>
+
+<!-- Colonnes -->
+<div class="modal" id="modal-columns">
+  <div class="modal-header"><h2 class="modal-title" id="modal-columns-title">Colonnes</h2><button class="btn-icon" id="btn-close-columns"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+  <div class="modal-body">
+    <p style="font-size:13px;color:var(--text3);margin-bottom:14px;">Glisse ⠿ pour réordonner.</p>
+    <div id="wiki-toggle-wrap" style="display:flex;align-items:center;gap:10px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:14px;">
+      <label class="toggle-switch"><input type="checkbox" id="wiki-toggle-cb"/><span class="toggle-slider"></span></label>
+      <span style="font-size:13px;font-weight:500;">🔍 Activer les suggestions Wikipédia</span>
+      <button class="btn-help" data-help="wikipedia" style="margin-left:auto;width:24px;height:24px;border:1px solid var(--border);border-radius:50%;background:var(--bg4);cursor:pointer;font-size:12px;color:var(--text2);">?</button>
+    </div>
+    <div id="cols-list"></div>
+    <button class="btn btn-ghost" style="width:100%;margin-top:12px;" id="btn-add-col">+ Ajouter une colonne</button>
+  </div>
+  <div class="modal-footer"><button class="btn btn-ghost" id="btn-cancel-columns">Annuler</button><button class="btn btn-primary" id="btn-save-columns">Sauvegarder</button></div>
+</div>
+
+<!-- Import -->
+<div class="modal" id="modal-import">
+  <div class="modal-header"><h2 class="modal-title">Importer des données</h2><button class="btn-help" data-help="import" style="margin-right:8px;">?</button><button class="btn-icon" id="btn-close-import"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+  <div class="modal-body">
+    <div class="import-tabs"><button class="import-tab active" data-itab="csv">Lien CSV</button><button class="import-tab" data-itab="paste">Coller</button></div>
+    <div id="itab-csv"><div class="import-steps" style="margin-top:16px;"><div class="import-step"><div class="import-step-num">1</div><div><strong>Google Sheets</strong><p>Fichier → Partager → Publier sur le web (CSV)</p></div></div><div class="import-step"><div class="import-step-num">2</div><div><strong>Colle l'URL ici</strong></div></div></div><label class="field-label" style="margin-top:16px;">URL CSV</label><input type="url" id="import-url" class="field-input" placeholder="https://docs.google.com/…" /></div>
+    <div id="itab-paste" style="display:none;"><div class="import-hint" style="margin-top:16px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Copie depuis Google Sheets. 1re ligne = en-têtes.</div><label class="field-label" style="margin-top:14px;">Données</label><textarea id="import-paste" class="field-textarea" style="min-height:120px;font-family:monospace;font-size:12px;"></textarea></div>
+    <label class="field-label" style="margin-top:16px;">Catégorie cible</label><select id="import-cat" class="field-select field-input"></select>
+    <div id="import-status" style="display:none;"></div>
+  </div>
+  <div class="modal-footer"><button class="btn btn-ghost" id="btn-cancel-import">Annuler</button><button class="btn btn-primary" id="btn-do-import">Importer</button></div>
+</div>
+
+<!-- Partage -->
+<div class="modal" id="modal-share">
+  <div class="modal-header"><h2 class="modal-title">Partage de ma collection</h2><button class="btn-help" data-help="partage" style="margin-right:8px;">?</button><button class="btn-icon" id="btn-close-share"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+  <div class="modal-body">
+    <div class="share-toggle-row"><div><strong>Partage public</strong><p style="font-size:13px;color:var(--text3);margin-top:4px;">Toute personne avec le lien peut voir ta collection en lecture seule.</p></div><label class="toggle-switch"><input type="checkbox" id="share-toggle"/><span class="toggle-slider"></span></label></div>
+    <div id="share-link-block" style="display:none;margin-top:20px;">
+      <label class="field-label">Lien de partage</label>
+      <div style="display:flex;gap:8px;"><input type="text" id="share-link-input" class="field-input" readonly style="font-size:12px;"/><button class="btn btn-ghost" id="btn-copy-link">Copier</button></div>
+      <button class="btn btn-ghost btn-sm" style="margin-top:10px;color:var(--danger);" id="btn-regen-token">Nouveau lien</button>
+    </div>
+  </div>
+  <div class="modal-footer"><button class="btn btn-primary" id="btn-close-share-ok">Fermer</button></div>
+</div>
+
+<!-- Compte -->
+<div class="modal" id="modal-account">
+  <div class="modal-header"><h2 class="modal-title">Mon compte</h2><button class="btn-icon" id="btn-close-account"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+  <div class="modal-body">
+    <div id="account-info"></div>
+    <hr style="border-color:var(--border);margin-bottom:20px;" />
+    <h3 style="font-size:15px;font-weight:600;margin-bottom:16px;">Changer le mot de passe</h3>
+    <div class="field-group"><label class="field-label">Nouveau mot de passe</label><div style="position:relative;"><input type="password" id="acc-new-pw" class="field-input" placeholder="8 caractères minimum" style="padding-right:40px;"/><button type="button" class="pw-toggle" data-target="acc-new-pw">👁</button></div></div>
+    <div id="acc-pw-error" class="auth-error" style="display:none;"></div>
+    <button class="btn btn-primary" id="btn-change-pw">Mettre à jour</button>
+  </div>
+  <div class="modal-footer"><button class="btn btn-ghost" id="btn-close-account-ok">Fermer</button></div>
+</div>
+
+<!-- Admin -->
+<div class="modal" id="modal-admin">
+  <div class="modal-header"><h2 class="modal-title">🛡️ Panneau admin</h2><button class="btn-icon" id="btn-close-admin"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+  <div class="modal-body">
+    <h3 class="admin-section-title">Apparence</h3>
+    <div class="field-group"><label class="field-label">Nom du site</label><input type="text" id="admin-site-name" class="field-input" /></div>
+    <div class="field-group"><label class="field-label">Logo texte (2-3 car.)</label><input type="text" id="admin-site-logo" class="field-input" maxlength="4" /></div>
+    <div class="field-group"><label class="field-label">Logo image (URL)</label><input type="url" id="admin-logo-url" class="field-input" placeholder="https://… (remplace le logo texte)" /></div>
+    <div class="field-group"><label class="field-label">Sous-titre</label><input type="text" id="admin-site-sub" class="field-input" /></div>
+    <div id="admin-config-msg" style="display:none;"></div>
+    <button class="btn btn-primary" id="btn-save-config">Sauvegarder l'apparence</button>
+
+    <hr style="border-color:var(--border);margin:24px 0;" />
+    <h3 class="admin-section-title">📰 Articles & annonces</h3>
+    <div class="field-group"><label class="field-label">Titre</label><input type="text" id="news-title" class="field-input" placeholder="Titre de l'article…" /></div>
+    <div class="field-group"><label class="field-label">Contenu (Markdown basique : **gras**, *italique*, - liste)</label><textarea id="news-content" class="field-textarea" style="min-height:100px;" placeholder="Contenu de l'article…"></textarea></div>
+    <div class="field-group"><label class="field-label">Image (URL, optionnel)</label><input type="url" id="news-image-url" class="field-input" placeholder="https://…" /></div>
+    <div class="field-group" style="display:flex;align-items:center;gap:10px;">
+      <input type="checkbox" id="news-pinned" style="width:16px;height:16px;" />
+      <label for="news-pinned" class="field-label" style="margin:0;">📌 Épingler cet article</label>
+    </div>
+    <button class="btn btn-ghost" id="btn-add-news" style="margin-bottom:16px;">+ Publier l'article</button>
+    <div id="admin-news-list"></div>
+
+    <hr style="border-color:var(--border);margin:24px 0;" />
+    <h3 class="admin-section-title">📖 Tutoriel</h3>
+    <div id="admin-tutorial-steps"></div>
+    <div id="tuto-save-msg" class="auth-error auth-success" style="display:none;margin-top:8px;">✓ Tutoriel sauvegardé !</div>
+    <button class="btn btn-ghost" id="btn-save-tutorial" style="margin-top:12px;">Sauvegarder le tutoriel</button>
+
+    <hr style="border-color:var(--border);margin:24px 0;" />
+    <h3 class="admin-section-title">💬 Textes d'aide (boutons ?)</h3>
+    <p style="font-size:13px;color:var(--text3);margin-bottom:16px;">Ces textes s'affichent dans les popups d'aide accessibles via les boutons ? sur chaque fonctionnalité.</p>
+    <div id="admin-help-texts-list"></div>
+
+    <hr style="border-color:var(--border);margin:24px 0;" />
+    <h3 class="admin-section-title">Statistiques</h3>
+    <div id="admin-stats" class="admin-stats-grid"></div>
+
+    <hr style="border-color:var(--border);margin:24px 0;" />
+    <h3 class="admin-section-title">Utilisateurs</h3>
+    <div id="admin-users-list"></div>
+  </div>
+  <div class="modal-footer"><button class="btn btn-ghost" id="btn-close-admin-ok">Fermer</button></div>
+</div>
+
+<!-- Roulette -->
+<div class="modal" id="modal-roulette">
+  <div class="modal-header"><h2 class="modal-title">🎰 Roulette</h2><button class="btn-icon" id="btn-close-roulette"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+  <div class="modal-body" id="modal-roulette-body"></div>
+  <div class="modal-footer"><button class="btn btn-ghost" id="btn-close-roulette">Fermer</button></div>
+</div>
+
+<!-- Tutoriel -->
+<div class="modal" id="modal-tutorial">
+  <div class="modal-header"><h2 class="modal-title">📖 Guide MediaLog</h2><button class="btn-icon" id="btn-close-tutorial"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+  <div class="modal-body" id="tutorial-steps-body"></div>
+  <div class="modal-footer"><button class="btn btn-primary" id="btn-close-tutorial-ok">C'est parti !</button></div>
+</div>
+
+<!-- Graphiques -->
+<div class="modal" id="modal-stats">
+  <div class="modal-header"><h2 class="modal-title">📊 Statistiques</h2><button class="btn-help" data-help="graphiques" style="margin-right:8px;">?</button><button class="btn-icon" id="btn-close-stats"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+  <div class="modal-body"><div id="stats-charts"></div></div>
+  <div class="modal-footer"><button class="btn btn-ghost" id="btn-close-stats">Fermer</button></div>
+</div>
+
+<!-- News -->
+<div class="modal" id="modal-news">
+  <div class="modal-header"><h2 class="modal-title">📰 Actualités</h2><button class="btn-icon" id="btn-close-news"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+  <div class="modal-body" id="news-body"></div>
+  <div class="modal-footer"><button class="btn btn-ghost" id="btn-close-news">Fermer</button></div>
+</div>
+
+<script>
+  window.ENV_SUPABASE_URL      = 'https://lvnbwrpxhkytkkgwwgzs.supabase.co';
+  window.ENV_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx2bmJ3cnB4aGt5dGtrZ3d3Z3pzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwODU2MTksImV4cCI6MjA5NTY2MTYxOX0.SFYwX7htL2YEGQn8mAhIDnpFkpXmheEfa-XG_0uLBjY';
+</script>
+<script src="/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3/dist/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<script src="/api.js"></script>
+<script src="/ml-core.js"></script>
+<script src="/ml-misc.js"></script>
+<script src="/ml-share.js"></script>
+<script src="/ml-columns.js"></script>
+<script src="/ml-entry.js"></script>
+<script src="/ml-render.js"></script>
+<script src="/ml-table.js"></script>
+<script src="/ml-wiki.js"></script>
+<script src="/ml-roulette.js"></script>
+<script src="/ml-charts.js"></script>
+<script src="/ml-admin.js"></script>
+<script src="/ml-app.js"></script>
+</body>
+</html>
