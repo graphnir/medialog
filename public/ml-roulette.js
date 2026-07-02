@@ -140,11 +140,11 @@ function spinRoulette(catId,criteria){
     if(!col||!crit.operator)continue;
     pool=pool.filter(e=>{
       const val=e[crit.colId];
-      if(col.id==='__tags__'){
-        opOptions='';
-        const catTags=[...new Set(c.entries.flatMap(e=>e.tags||[]))].sort();
-        valueField=`<div class="roul-multi-select" data-ci="${i}">${catTags.map(t=>`<label style="display:flex;align-items:center;gap:6px;font-size:13px;padding:3px 0;"><input type="checkbox" value="${esc(t)}" ${(Array.isArray(crit.value)&&crit.value.includes(t))?'checked':''}/> ${esc(t)}</label>`).join('')}</div>`;
-      }else if(col.type==='text'||col.type==='textarea'){
+      if(crit.colId==='__tags__'){
+        const selectedTags=Array.isArray(crit.value)?crit.value:[];
+        return selectedTags.length===0||selectedTags.some(t=>(e.tags||[]).includes(t));
+      }
+      if(col.type==='text'||col.type==='textarea'){
         const v=String(val||'').toLowerCase(),kw=String(crit.value||'').toLowerCase();
         return crit.operator==='contains'?v.includes(kw):!v.includes(kw);
       }

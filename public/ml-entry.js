@@ -191,6 +191,7 @@ function saveEntry(){
   });
   if(!valid){alert(`"${cat.columns.find(c=>c.required)?.name||'Titre'}" est obligatoire.`);return;}
   // Tags depuis le DOM
+  const tagsInputEl=document.getElementById('tags-input');
   const _tagPills=document.querySelectorAll('#tags-input-wrap .tag-pill');
   const _savedTags=[..._tagPills].map(p=>p.dataset.tag).filter(Boolean);
   if(tagsInputEl?.value?.trim())_savedTags.push(tagsInputEl.value.trim().toLowerCase());
