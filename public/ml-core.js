@@ -170,6 +170,7 @@ function initAuthPage(){
       btn.textContent=input.type==='password'?'👁':'🙈';
     });
   });
+  document.getElementById('btn-forgot-pw')?.addEventListener('click',async()=>{
     const email=document.getElementById('login-email').value.trim();
     if(!email){alert("Saisis ton email d'abord.");return;}
     try{await API.resetPassword(email);alert('📧 Email envoyé !');}catch(e){alert(e.message);}
